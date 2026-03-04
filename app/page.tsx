@@ -1,3 +1,4 @@
+import type { RowDataPacket } from "mysql2";
 import CalendarioLiturgicoCliente from "./CalendarioLiturgicoCliente";
 import { pool } from "@/lib/db";
 
@@ -7,7 +8,9 @@ type TiempoLiturgico = {
   celebracion: string;
 };
 
-type CancionRecomendada = {
+type TiempoLiturgicoRow = RowDataPacket & Partial<TiempoLiturgico>;
+
+type CancionRecomendada = RowDataPacket & {
   titulo: string;
   slug: string;
 };
@@ -20,7 +23,7 @@ const TIEMPO_POR_DEFECTO: TiempoLiturgico = {
 
 async function getTiempoLiturgico() {
   try {
-    const [rows] = await pool.query<Array<Partial<TiempoLiturgico>>>(`
+    const [rows] = await pool.query<TiempoLiturgicoRow[]>(`
       SELECT t.nombre, t.color, c.celebracion
       FROM calendario_liturgico c
       JOIN tiempos_liturgicos t ON c.tiempo_id = t.id
