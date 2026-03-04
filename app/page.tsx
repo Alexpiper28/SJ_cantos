@@ -2,6 +2,8 @@ import type { RowDataPacket } from "mysql2";
 import CalendarioLiturgicoCliente from "./CalendarioLiturgicoCliente";
 import { pool } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 type TiempoLiturgico = {
   nombre: string;
   color: string;
@@ -57,3 +59,4 @@ export default async function Home() {
 
   return <CalendarioLiturgicoCliente tiempo={tiempo} canciones={canciones} />;
 }
+
